@@ -213,7 +213,8 @@ $ sudo /usr/local/openresty/nginx/sbin/nginx
 
 
 ## waf-admin配置
-- waf-admin需要mysql的支持，事先需要准备一个mysql数据库的账户，以下为app.ini的配置范例：
+
+waf-admin需要mysql的支持，事先需要准备一个mysql数据库的账户，以下为app.ini的配置范例：
 
 ```ini
 RUN_MODE = dev

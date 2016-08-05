@@ -21,3 +21,5 @@ nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test failed
 返回`{"Status":1,"Message":"reload nginx configure faild"}`错误的原因为waf admin是以普通用户权限启动的，在同步完策略后无法操作openresty的master进程完成策略加载的操作。
 
 解决方案：以root账户或用sudo命令启动waf admin。
+
+### 
