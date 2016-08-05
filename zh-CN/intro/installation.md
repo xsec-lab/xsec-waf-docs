@@ -64,9 +64,9 @@ make build && make install
 yum -y install sqlite sqlite-devel unzip 
 /usr/local/openresty/luajit/bin/luarocks install luafilesystem 
 ```
-## 安装waf管理后台xsec-waf-web
+## 安装waf管理后台x-waf-admin
 ### 二进制安装
-直接从github中下载二进制版本
+直接从github中下载对应操作系统的二进制版本
 
 ### 源码安装
 
@@ -86,14 +86,14 @@ go get github.com/go-xorm/xorm
 
 # 部署与配置
 ## waf部署与配置
-### nginx的配置
-- 将xsec-waf的代码目录`waf`放置到openresty的`/usr/local/openresty/nginx/conf`目录下；
-- 在nginx的conf的目录下新建vhosts目录
+### openresty的配置
+
+将x-waf的代码目录`waf`放置到openresty的`/usr/local/openresty/nginx/conf`目录下，并在openresty的conf的目录下新建vhosts目录
 
 ```bash
 mkdir -p /usr/local/openresty/nginx/conf/vhosts
 ```
-- nginx.conf的配置可以参考以下：
+以下为openresty的配置范例：
 
 ```ini
 user  nginx;
@@ -271,7 +271,10 @@ config_output_html=[[
 return _M
 ```
 
-- waf启动测试，如果测试返回ok则表示配置正确
+### waf测试
+
+使用root权限执行以下命令测试配置文件的正确性，如果测试结果返回ok则表示配置是正确的。
+
 ```bash
 $ sudo /usr/local/openresty/nginx/sbin/nginx -t
 [sudo] hartnett 的密码：
@@ -279,19 +282,20 @@ nginx: the configuration file /usr/local/openresty/nginx/conf/nginx.conf syntax 
 nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test is successful
 ```
 
-- 启动waf
+如果配置文件正常，可以通过以下命令正式启动waf
 
 ```bash
 $ sudo /usr/local/openresty/nginx/sbin/nginx
 ```
 
-- waf有效性测试。
+### WAF防御效果测试
 
 在服务器中提交`curl http://127.0.0.1/\?id\=1%20union%20select%201,2,3`，
-如果返回` 欢迎在遵守白帽子道德准则的情况下进行安全测试`就表示waf已经正常运行了。
+如果返回的内容中包含`欢迎在遵守白帽子道德准则的情况下进行安全测试`等字样就表示waf已经在正常运行了。
 
-## waf-admin的配置
-- waf-admin需要mysql的支持，事先需要准备一个mysql数据库的账户，以下为详细的配置信息
+
+## waf-admin配置
+- waf-admin需要mysql的支持，事先需要准备一个mysql数据库的账户，以下为app.ini的配置范例：
 
 ```ini
 RUN_MODE = dev
@@ -313,4 +317,6 @@ NAME = waf
 [waf]
 RULE_PATH = /usr/local/openresty/nginx/conf/waf/rules/
 ```
-- 然后在当前目录执行./server测试程序是否可以正常启动，如可以正常启动，则可能通过supversisor、nohup、systemd等将server跑在后台。
+配置完成后在当前目录执行./server测试程序是否可以正常启动，waf-admin需要操作nginx的master进程，所以需要以root权限启动。
+
+可以使用supversisor、nohup、systemd等将waf-admin跑在后台。
