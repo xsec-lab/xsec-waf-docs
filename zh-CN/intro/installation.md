@@ -78,7 +78,7 @@ go get gopkg.in/macaron.v1
 go get gopkg.in/ini.v1
 go get github.com/go-sql-driver/mysql
 go get github.com/go-xorm/xorm
-
+go get github.com/xsec-lab/x-waf-admin
 ```
 
 - 从github中下载最新的版本
