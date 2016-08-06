@@ -73,9 +73,8 @@ yum -y install sqlite sqlite-devel unzip
 
 ### 源码安装
 
-- 首先需要搭建好go语言开发环境，可以参考[Go Web 编程](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/01.1.md)
-- 安装依赖包
-
+1.  首先需要搭建好go语言开发环境，可以参考[Go Web 编程](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/01.1.md)
+1. 安装依赖包
 ```bash
 go get gopkg.in/macaron.v1
 go get gopkg.in/ini.v1
@@ -84,5 +83,5 @@ go get github.com/go-xorm/xorm
 go get github.com/xsec-lab/x-waf-admin
 ```
 
-- 从github中下载最新的版本
-- 执行go build server.go编译出二进制版本，然后将server、conf、publib和templates目录一起打包上传到服务器中即可运行。
+1. 从github中下载最新的版本
+1. 执行go build server.go编译出二进制版本，然后将server、conf、publib和templates目录一起打包上传到服务器中即可运行。
