@@ -16,7 +16,7 @@ X-WAF是一款适用中、小企业的云WAF系统，让中、小企业也可以
 - 支持在线管理waf规则
 - 支持在线管理后端服务器
 - 多台waf的配置可自动同步
-- 跨平台，支持在linux\unix\mac和windows服务器中部署
+- 跨平台，支持在linux、unix、mac和windows操作系统中部署
 
 # 架构简介
 x-waf由waf主体与Waf管理后台组成：
