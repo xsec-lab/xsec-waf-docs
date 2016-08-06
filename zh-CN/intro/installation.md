@@ -64,9 +64,12 @@ make build && make install
 yum -y install sqlite sqlite-devel unzip 
 /usr/local/openresty/luajit/bin/luarocks install luafilesystem 
 ```
+
 ## 安装waf管理后台x-waf-admin
+
 ### 二进制安装
-直接从github中下载对应操作系统的二进制版本
+
+直接从github中下载对应操作系统的二进制版本，https://github.com/xsec-lab/x-waf-admin/releases
 
 ### 源码安装
 
@@ -82,4 +85,4 @@ go get github.com/xsec-lab/x-waf-admin
 ```
 
 - 从github中下载最新的版本
-- 执行go build server.go编译出二进制版本，然后将server、conf、publib和templates目录一起打包上传到服务器中即可。
+- 执行go build server.go编译出二进制版本，然后将server、conf、publib和templates目录一起打包上传到服务器中即可运行。
