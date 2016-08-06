@@ -13,6 +13,7 @@ cd /usr/local/openresty/nginx/conf/
 git clone https://github.com/xsec-lab/x-waf
 mkdir -p /usr/local/openresty/nginx/conf/vhosts
 ```
+
 以下为openresty的配置范例：
 
 ```ini
@@ -80,6 +81,7 @@ http {
 }
 
 ```
+
 ### waf的配置
 
 waf的配置文件位于`/usr/local/openresty/nginx/conf/waf/config.lua`中，详细的配置项如下：
@@ -223,7 +225,7 @@ nginx: the configuration file /usr/local/openresty/nginx/conf/nginx.conf syntax 
 nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test is successful
 ```
 
-如果配置文件正常，可以通过以下命令正式启动waf
+如果配置文件正常就可启动waf：
 
 ```bash
 $ sudo /usr/local/openresty/nginx/sbin/nginx
@@ -252,14 +254,24 @@ NGINX_VHOSTS = /usr/local/openresty/nginx/conf/vhosts/
 API_SERVERS = 127.0.0.1, 8.8.8.8
 
 [database]
+HOST = mysqlhost:3306
 USER = waf-admin
 PASSWD = passw0rd
-HOST = mysqlhost:3306
 NAME = waf
 
 [waf]
 RULE_PATH = /usr/local/openresty/nginx/conf/waf/rules/
 ```
-配置完成后在当前目录执行./server测试程序是否可以正常启动，waf-admin需要操作nginx的master进程，所以需要以root权限启动。
 
-可以使用supversisor、nohup、systemd等将waf-admin跑在后台。
+- RUN_MODE为运行模式，dev为开发模式，prod为线上模式，正式上线前请将运行模式改为prod
+- HTTP_PORT为waf-admin监听的端口
+- API_KEY为多台waf-admin同步配置信息时用的加密key，建议设置一个复杂的字符串
+- NGINX_BIN为nginx的可执行文件的物理路径
+- NGINX_VHOSTS为nginx的虚拟主机目录的物理路径
+- API_SERVERS表示有几台waf服务器，多台waf服务器之间的ip用英文逗号分割
+- database节为mysql的配置信息，分别用数据库地址，用户名、密码以及库名
+- waf节中的RULE_PATH表示waf的规则存放的位置
+
+配置完成后在当前目录执行./server测试程序是否可以正常启动，第一次启动的时候，如果数据库能正常连接，则会自动初始化默认的waf规则，以及新建一个用户名为admin，密码为：x@xsec.io的用户。
+
+waf-admin需要操作nginx的master进程，所以需要以root权限启动，可以使用supversisor、nohup、systemd等将waf-admin跑在后台。
