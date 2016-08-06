@@ -231,7 +231,8 @@ $ sudo /usr/local/openresty/nginx/sbin/nginx
 
 ### WAF防御效果测试
 
-在服务器中提交`curl http://127.0.0.1/\?id\=1%20union%20select%201,2,3`，
+在服务器中提交`curl http://127.0.0.1/\?id\=1%20union%20select%201,2,3`
+
 如果返回的内容中包含`欢迎在遵守白帽子道德准则的情况下进行安全测试`等字样就表示waf已经在正常运行了。
 
 
