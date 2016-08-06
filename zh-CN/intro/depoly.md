@@ -6,9 +6,11 @@ name: 部署配置
 ## waf部署与配置
 ### openresty的配置
 
-将x-waf的代码目录`waf`放置到openresty的`/usr/local/openresty/nginx/conf`目录下，并在openresty的conf的目录下新建vhosts目录
+将x-waf的代码目录放置到openresty的`/usr/local/openresty/nginx/conf`目录下，然后在openresty的conf的目录下新建vhosts目录
 
 ```bash
+cd /usr/local/openresty/nginx/conf/
+git clone https://github.com/xsec-lab/x-waf
 mkdir -p /usr/local/openresty/nginx/conf/vhosts
 ```
 以下为openresty的配置范例：
@@ -30,14 +32,16 @@ events {
 
 http {
     include       mime.types;
-    default_type  application/octet-stream;
-
-    lua_package_path "/usr/local/openresty/nginx/conf/waf/code/?.lua;/usr/local/lib/lua/?.lua;;";
+    lua_package_path "/usr/local/openresty/nginx/conf/x-waf/?.lua;/usr/local/lib/lua/?.lua;;";
     lua_shared_dict limit 100m;
     lua_shared_dict badGuys 100m;
+    default_type  application/octet-stream;
+
+	#开启lua代码缓存功能
 	lua_code_cache on;
-	init_by_lua_file /usr/local/openresty/nginx/conf/waf/code/init.lua;
-    access_by_lua_file /usr/local/openresty/nginx/conf/waf/code/access.lua;
+
+	init_by_lua_file /usr/local/openresty/nginx/conf/x-waf/init.lua;
+    access_by_lua_file /usr/local/openresty/nginx/conf/x-waf/access.lua;
 
 	#log_format shield_access    '$remote_addr - $http_host - "$request" - "$http_cookie"';
 	#access_log pipe:/usr/local/shield/redisclient shield_access;
@@ -59,9 +63,25 @@ http {
  
     #gzip  on;
     include vhosts/*.conf;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        	}
+        }
 }
+
 ```
 ### waf的配置
+
 waf的配置文件位于`/usr/local/openresty/nginx/conf/waf/config.lua`中，详细的配置项如下：
 
 ```lua
@@ -74,7 +94,7 @@ local _M = {
     -- log dir
     config_log_dir = "/tmp/waf_logs",
     -- rule setting
-    config_rule_dir = "/usr/local/openresty/nginx/conf/waf/rules",
+    config_rule_dir = "/usr/local/openresty/nginx/conf/x-waf/rules",
     -- enable/disable white url
     config_white_url_check = "on",
     -- enable/disable white ip
@@ -189,6 +209,7 @@ local _M = {
 }
 
 return _M
+
 ```
 
 ### waf测试
