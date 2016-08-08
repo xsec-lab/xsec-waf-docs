@@ -22,7 +22,7 @@ nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test failed
 
 解决方案：以root账户或用sudo命令启动waf admin。
 
-### 正常访问被提示为CC攻击
+### 正常访问被误报为CC攻击
 
 如果waf前端有高可用VIP，需要将用户真实地址传递给后端waf，否则waf获取到的是vip的地址，访问量大到触发cc攻击的阀值后就会将正常的请求误报为cc攻击。
 
