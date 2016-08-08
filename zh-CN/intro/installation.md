@@ -24,21 +24,6 @@ nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test is suc
 /usr/local/openresty/nginx/sbin/nginx 
 ```
 
-安装luarocks
-
-```bash
-wget http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz
-tar -zxvf luarocks-2.3.0.tar.gz 
-cd luarocks-2.3.0
-./configure --prefix=/usr/local/openresty/luajit \
---with-lua=/usr/local/openresty/luajit/ \
---lua-suffix=jit-2.1.0-beta2 \
---with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
-make build && make install
-yum -y install sqlite sqlite-devel unzip 
-/usr/local/openresty/luajit/bin/luarocks install luafilesystem 
-```
-
 ### ubuntu平台安装
 
 编译安装openresty：
@@ -50,19 +35,6 @@ wget https://openresty.org/download/openresty-1.9.15.1.tar.gz
 tar -zxvf openresty-1.9.15.1.tar.gz
 cd openresty-1.9.15.1
 make && sudo make install
-```
-安装luarocks
-```bash
-wget http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz
-tar -zxvf luarocks-2.3.0.tar.gz 
-cd luarocks-2.3.0
-./configure --prefix=/usr/local/openresty/luajit \
---with-lua=/usr/local/openresty/luajit/ \
---lua-suffix=jit-2.1.0-beta2 \
---with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
-make build && make install
-yum -y install sqlite sqlite-devel unzip 
-/usr/local/openresty/luajit/bin/luarocks install luafilesystem 
 ```
 
 ## 安装waf管理后台x-waf-admin
